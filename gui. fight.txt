@@ -1,0 +1,286 @@
+
+import simplegui
+import math
+x=1190
+y=565
+y2=565
+x2=1190
+
+
+
+x1=60
+y1=60
+y3=60
+x3=60
+
+k=0
+cc=False
+k1=0
+
+
+l1=False
+r1=False
+l=False
+r=False
+u=False
+u1=False
+s=False
+s1=False
+d=False
+d1=False
+def click(k1):
+    global cc
+    cc=True
+def key(k):
+    global l,r,u,l1,r1,u1,d,d1,s,s1
+    if simplegui.KEY_MAP['left']==k:
+        l=True
+        r=False
+        u=False
+        d=False
+    if simplegui.KEY_MAP['right']==k:
+        r=True
+        l=False
+        u=False
+        d=False
+    if simplegui.KEY_MAP['up']==k:
+        r=False
+        l=False
+        u=True
+        d=False
+    if simplegui.KEY_MAP['down']==k:
+        r=False
+        l=False
+        u=False
+        d=True
+    if simplegui.KEY_MAP['space']==k:
+        s=True
+    if simplegui.KEY_MAP['q']==k:
+        s1=True
+    if simplegui.KEY_MAP['a']==k:
+        l1=True
+        r1=False
+        u1=False
+        d1=False
+    if simplegui.KEY_MAP['d']==k:
+        r1=True
+        l1=False
+        u1=False
+        d1=False
+    if simplegui.KEY_MAP['w']==k:
+        r1=False
+        l1=False
+        u1=True
+        d1=False
+    if simplegui.KEY_MAP['s']==k:
+        r1=False
+        l1=False
+        u1=False
+        d1=True
+    
+   
+       
+        
+
+
+# Handler to draw on canvas
+def draw(canvas):
+    global x,x1,y,y1,l,r,u,d,l1,r1,u1,d1,y2,y3,x2,x3,s,s1,z,z1,z3
+    canvas.draw_text('Rules',[550,100],88,'Red')
+    canvas.draw_text('1.If any player goes out of screen then the other player will win',[300,180],28,'white')
+    canvas.draw_text('2.If the bullet of a player touches another player the player will win ',[300,260],28,'white')
+    canvas.draw_text('3.The bullet will reload after the bullet goes out of the screen',[300,340],28,'white')
+    canvas.draw_text('4.Players can control the movement of the bullet',[390,400],28,'white')
+    canvas.draw_text('Controls',[540,480],88,'red')
+    canvas.draw_text('Player 1: W,A,S,D to move around and Q to shoot',[390,540],28,'white')
+    canvas.draw_text('Player 2: Arrow keys to move around and Space bar to shoot',[330,600],28,'white')
+    canvas.draw_text('Click anywhere to start the game',[15,20],15,'olive')
+    if cc:
+        canvas.draw_polygon([[0,0],[1250,0],[1250,625],[0,625]],4,'green','white')
+        canvas.draw_circle ([x,y], 50,4, "Red",'red')
+        canvas.draw_circle ([x2,y2],10,4, "yellow",'yellow')
+
+
+
+        canvas.draw_circle ([x1,y1], 50,4, "blue",'blue')
+        canvas.draw_circle ([x3,y3],10,4, "black",'black')
+
+
+        if u:
+            y=y-4
+            y2=y2-4
+        if l:
+            x=x-4
+            x2=x2-4
+        if r:
+            x=x+4
+            x2=x2+4
+        if d:
+            y=y+4
+            y2=y2+4
+        if u1:
+            y1=y1-4
+            y3=y3-4
+        if l1:
+            x1=x1-4
+            x3=x3-4
+        if r1:
+            x1=x1+4
+            x3=x3+4
+        if d1:
+            y1=y1+4
+            y3=y3+4
+        if s:
+            if x<x1 and y<y1:
+                y2=y2+2
+                x2=x2+2
+            if x>x1 and y>y1:
+                y2=y2-2
+                x2=x2-2
+            if x>x1 and y<y1:
+                y2=y2+2
+                x2=x2-2
+            if x<x1 and y>y1:
+                y2=y2-2
+                x2=x2+2
+        if x2>=1250:
+            x2=x
+            y2=y
+            s=False
+
+        if y2>=650:
+            y2=y
+            x2=x
+            s=False
+        if x2<=0:
+            s=False
+            x2=x
+            y2=y
+        if y2<=0:
+            s=False
+            y2=y
+            x2=x
+        if s1:
+            if x1<x and y1<y:
+                y3=y3+2
+                x3=x3+2
+            if x1>x and y1>y:
+                y3=y3-2
+                x3=x3-2
+            if x1>x and y1<y:
+                y3=y3+2
+                x3=x3-2
+            if x1<x and y1>y:
+                y3=y3-2
+                x3=x3+2
+        if x3>=1250:
+            x3=x1
+            y3=y1
+            s1=False
+
+        if y3>=650:
+            y3=y1
+            x3=x1
+            s1=False
+        if x3<=0:
+            s1=False
+            x3=x1
+            y3=y1
+        if y3<=0:
+            s1=False
+            y3=y1
+            x3=x1
+
+
+        if x>=1220 or y<=30 or x<=30 or y>=595:
+
+            canvas.draw_text('Player 2 wins as player 1 is out of bounds',[450,300],18,'olive')
+            u=False
+            d=False
+            l=False
+            r=False
+            u1=False
+            d1=False
+            l1=False
+            r1=False
+            s=False
+            s1=False
+        if x1>=1220 or y1<=30 or x1<=30 or y1>=595:
+            canvas.draw_text('Player 1 wins as player 2 is out of bounds',[450,300],18,'olive')
+            u=False
+            d=False
+            l=False
+            r=False
+            u1=False
+            d1=False
+            l1=False
+            r1=False
+            s=False
+            s1=False
+        z=math.sqrt((x-x1)**2+(y-y1)**2)
+        if z<100:
+            if x>x1:
+                x1=x1-100
+                x=x+150
+                x3=x3-100
+                x2=x2+150
+                if l and r1:
+                    l=False
+                    r=True
+                    r1=False
+                    l1=True
+                else:
+                    l=True
+                    r=False
+                    r1=True
+                    l1=False
+
+            if x1>x:
+                x3=x3+150
+                x=x-100
+                x1=x1+150
+                x2=x2-100
+                if l and r1:
+                    l=False
+                    r=True
+                    r1=False
+                    l1=True
+                else:
+                    l=True
+                    r=False
+                    r1=True
+                    l1=False
+        z1=math.sqrt((x-x3)**2+(y-y3)**2)
+        if z1<60:
+            canvas.draw_text('Player 2 wins',[450,300],48,'olive')
+            u=False
+            d=False
+            l=False
+            r=False
+            u1=False
+            d1=False
+            l1=False
+            r1=False
+            s=False
+            s1=False
+        z3=math.sqrt((x1-x2)**2+(y1-y2)**2)
+        if z3<60:
+            canvas.draw_text('Player 1 wins',[450,300],48,'olive')
+            u=False
+            d=False
+            l=False
+            r=False
+            u1=False
+            d1=False
+            l1=False
+            r1=False
+            s=False
+            s1=False
+# Create a frame and assign callbacks to event handlers
+frame = simplegui.create_frame("Fight!!!", 1250, 625)
+frame.set_keydown_handler(key)
+frame.set_draw_handler(draw)
+frame.set_mouseclick_handler(click)
+
+# Start the frame animation
+frame.start()
